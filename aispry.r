@@ -54,6 +54,65 @@ z$out   # Displays the outliers
 qqnorm(gmat)
 qqline(gmat)  # As almost all the dots are about the line the data is normally distributed
 
+######End of Session###########
+
+rm(list = ls()) # Removes all the dataframes and variables from memory
+
+####################------------------- Data Cleansing -------------------####################
+
+### Type Casting ###
+
+data <- read.csv(file.choose()) # Load the Ethnic Diversity dataset for EDA_Dataset
+
+str(data) # str - gives the structure of the data all columns  along with its data types
+summary(data) # summary gives the statistical summary of the numerical data 
+attach(data)  # Attaching the dataframe to the memory
+
+# Typecasting is forcibly converting one data type to another 
+
+is.numeric(data$Position) # Returns true or false on the data types
+str(data$age) # returns int as the data type
+data$age <- as.numeric(data$age) # Type casting the age data as num type and reassigning it to the age column in the dataframe
+str(data$age) # Returns num as data type
+data$age <- as.integer(data$age)  # Converting the age data to integer again
+str(data$Sex) # checking the data type of Sex, which returns as chr
+data$Sex <- as.factor(data$Sex) # Typecasting the Sex as a factor and assigning it to Sex column
+str(data$Sex) # Returns the data type. which is now a Factor with 2 levels 
+
+# We can directly take Strings as factor while importing the data itself
+
+data1 <- read.csv(file.choose(),stringsAsFactors = TRUE) # Load the Ethnic Diversity dataset for EDA_Dataset
+str(data1) # All the characters are converted as factors
+
+### End of Session ###
+rm(list=ls())
+
+### Handling Duplicates ###
+data <- read.csv(file.choose())# Load the mtcars_dup dataset for EDA_Dataset
+dup <- duplicated(data) # creating an array of True or False if a row is duplicated or not 
+data_new <- data[!duplicated(data),] # A new data frame with no duplicate rows is created
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
