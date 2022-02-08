@@ -152,6 +152,90 @@ data$Department[is.na(data$Department)] <- Moder(na.omit(data$Department))
 ### End of Session ###
 rm(list=ls())
 
+### Dummy Variable Creation ###
+data <- read.csv(file.choose()) # Load ethnic diversity data set from EDA_Dataset
+install.packages("fastDummies") # Installing the package 'fastDummies'
+library(fastDummies) # Calling the library 'fastDummies'
+str(data)
+summary(data)
+
+## One Hot Encoding ##
+# Creating dummies in the dataset using the fastDummies library, dummy_cols function.
+data_dummy <- dummy_cols(data,select_columns = c("Position","State","Sex","MaritalDesc","CitizenDesc","EmploymentStatus","Department",
+                                                 "Race"),remove_first_dummy = TRUE,remove_selected_columns = TRUE)
+# remove_first_dummy removes the first dummy. So that n-1 dummies are created for n Variables.
+
+## Label Encoding ##
+install.packages("CatEncoders")
+library(CatEncoders)
+# Creating Dummies in the dataset using CatEncoders library, LabelEncoder
+data_label <- LabelEncoder.fit(data$Position) # Creates an object.... just run the name 'data_label' to see all the names and the labels
+position_new <- transform(data_label,data$Position)# Create a vector with the label Values for the Position Column
+position_new
+data_label_new <- cbind(data,position_new) # Adding the labels vector as a column at the end
+str(data_label)
+
+### End of Session ###
+rm(list=ls())
+
+### Standardization and Normalization ###
+
+## Normalization ##
+data <- read.csv(file.choose()) # Load ethnic diversity data set from EDA_Dataset
+# Writing a function for normalization
+norm <- function(x){
+  return ((x-min(x))/(max(x)-min(x)))
+}
+data_norm <- data
+data_norm$Salaries <- norm(data_norm$Salaries)
+data_norm$age <- norm(data_norm$age)
+
+### End of Session ###
+rm(list=ls())
+
+## Standardization ##
+data <- read.csv(file.choose()) # Load mtcars data set from EDA_Dataset
+data_std <- as.data.frame(scale(data)) # Scale is built-in Standardization formula
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
