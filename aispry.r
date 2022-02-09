@@ -197,17 +197,31 @@ rm(list=ls())
 data <- read.csv(file.choose()) # Load mtcars data set from EDA_Dataset
 data_std <- as.data.frame(scale(data)) # Scale is built-in Standardization formula
 
+#### Outlier Treatment ####
+data <- read.csv(file.choose()) # Load ethnic diversity data set from EDA_Dataset
+boxplot(data$Salaries)$out # We see outliers here
+boxplot(data$age)$out # We donot have any outliers here.
+# Identify the 25% and 75% values in the distribution
+qunt <- quantile(data$Salaries,probs = c(0.25,0.75))
+qunt
+H <- 1.5*IQR(data$Salaries,na.rm = TRUE) # Calculating the 1.5*IQR for the salaries after removing NA values
+# Since the Outliers lie beneath Q1-1.5*IQR and beyond Q3+1.5*IQR
+#Now replace the outliers with the 25% and 75% values
+data$Salaries[data$Salaries < (qunt[1] - H)] <- qunt[1] # Replacing values less than IQR*1.5 with 25% value
+data$Salaries[data$Salaries > (qunt[2] + H)] <- qunt[2] # Replacing values greater than IQR*1.5 with 75% value
+# Check if there are any outliers now..
+boxplot(data$Salaries)$out  # There are no outliers present now.
+ 
+# We use 'robustHD' package for winsorize function.
+install.packages("robustHD")
+library(robustHD)
+data <- read.csv(file.choose()) # Load ethnic diversity data set from EDA_Dataset
+boxplot(data$Salaries)$out # Outliers are present here
+data$Salaries <- winsorize(data$Salaries) # by default winsorize takes 5% and 95%. These arguments can be changed
+boxplot(data$Salaries)$out  # No outliers are present 
 
-
-
-
-
-
-
-
-
-
-
+### End of Session ###
+rm(list=ls())
 
 
 
