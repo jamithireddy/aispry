@@ -263,9 +263,12 @@ rect.hclust(fit,k=3,border="red")# Displaying as 3 groups of the data
 groups <- cutree(fit,k=3) # This creates a set of values as per index showing which group the university belong to
 membership <- as.matrix(groups) # Converting the set of values into a Dataframe
 final <- data.frame(membership,my_data) # appending the Column to the data to show the group
-
-
-
+# Aggregating the group data.
+aggregate(final[,3:8],by=list(final$membership),FUN = mean) # by>> group by what. FUN>> aggregating function
+# Writing the data into a CSV file 
+library(readr)
+write_csv(final,"hclust_output.csv")
+getwd()  # To get the current working directory.
 
 
 
