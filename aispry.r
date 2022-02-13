@@ -224,23 +224,45 @@ boxplot(data$Salaries)$out  # No outliers are present
 rm(list=ls())
 
 
+#### Scatter Plot ####
+data <- read.csv(file.choose()) # Import the wc_at dataset from EDA_Dataset folder
+attach(data)
+plot(Waist,AT)
+# 1.We can straight way say that there is a positive correlation.
+# 2.However, we cannot comment if it is a moderate or weak correlation as it is subjective.
+# 3.The Data also appears to be Linear
+cor(Waist,AT) # Finding out the coefficient of correlation(r)
+# Since 0.82 is a positive value and below 0.85 We Can say the two variables are moderately positively correlated.
+cov(Waist,AT) # Calculating Co-variance for waist and AT
+# Since the value is 635.91 . We can comment on direction but not strength (as the change in units change the strength here)
+
+### End of Session ###
+rm(list=ls())
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+####################------------------- Hierarchical Clustering  -------------------####################
+install.packages("readxl") # Installing the 'readxl' package to handle excel files
+library(readxl)
+data <- read_excel(file.choose()) # Load University clustering data set from Hierarchical_clustering
+# Dropping the state name 
+my_data <-data[,-c(2)]
+summary(my_data)
+# Normalize the data excluding the University name
+norm_data <- scale(my_data[,2:7])  # scale function is used to standardize the data 
+summary(norm_data)
+#Calculating the distance matrix 
+d <- dist(norm_data,method = "euclidean") # d is a distance matrix.
+fit <- hclust(d,method = "complete") # Using complete linkage generate an object
+# Displaying Dendogram
+plot(fit,hang=-1)
+# In Hierarchical clustering we decide upon the number of clusters after running the dendogram
+# At times no.of clusters were given by the business. Then Business requirement gets priority
+rect.hclust(fit,k=3,border="red")# Displaying as 3 groups of the data
+# Cut the tree into 3 clusters
+groups <- cutree(fit,k=3) # This creates a set of values as per index showing which group the university belong to
+membership <- as.matrix(groups) # Converting the set of values into a Dataframe
+final <- data.frame(membership,my_data) # appending the Column to the data to show the group
 
 
 
