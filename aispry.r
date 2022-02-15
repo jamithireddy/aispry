@@ -270,17 +270,23 @@ library(readr)
 write_csv(final,"hclust_output.csv")
 getwd()  # To get the current working directory.
 
+### End of Session ###
+rm(list=ls())
 
 
 
+####################------------------- K-Means Clustering  -------------------####################
 
-
-
-
-
-
-
-
+install.packages("plyr")
+library(plyr)
+x <- runif(50) # Generating 50 random numbers
+y <- runif(50) # Generating 50 random numbers
+data <- cbind(x,y) # Making a dataframe
+plot(data) #Generating a scatter plot with the variables x and y
+install.packages("animation")
+library(animation)
+km <- kmeans.ani(data,3) # Creates an animation of arriving at the center for 3 clusters
+km$centers # Showing the centers for 3 clusters
 
 
 
