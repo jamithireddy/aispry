@@ -288,19 +288,36 @@ library(animation)
 km <- kmeans.ani(data,3) # Creates an animation of arriving at the center for 3 clusters
 km$centers # Showing the centers for 3 clusters
 
+km_clus <-kmeans(data,3) # We get a list of lists showing various cluster attributes of the data points.
+str(km_clus) # Lists out the various attributes we have in the km_clus list
+km_clus$centers # We get three center values 
+km_clus$size # gives no .of data points in the clusters
 
+library(readxl)
+input <- read_excel(file.choose()) # Load University clustering data set from Hierarchical_clustering
+mydata <- input[ , -2] # Removing the state Column 
+# Normalize the data
+norm_data <- scale(mydata[ ,2:7])
 
+### Elbow curve to decide upon the K- value
 
+# Writing a function to
+twss <- NULL
+for (i in 2:8){
+  twss <- c(twss,kmeans(norm_data,centers = i)$tot.withinss) # Looping and appending new twss value everytime in the loop
+}
 
+# Look for an "elbow" in the scree plot
+plot(2:8,twss,type='b',xlab=" No.of CLusters",ylab="TWSS") # on X plot 2-8, Y plot TWSS with a line style and Xlabel and Y label
+title(sub="K-Means Clustering Scree-Plot") # Title at the bottom 
 
+# Check where the line has higher slope. This shall mean that my increasing the number of clusters we did reduce the TWSS significantly
 
-
-
-
-
-
-
-
+# 3 Cluster solution
+fit <- kmeans(norm_data,3)
+final <- data.frame(fit$cluster,mydata)
+# Calculating the aggregates of the cluster
+aggregate(mydata[ , 2:7], by=list(fit$cluster),FUN = mean)
 
 
 
