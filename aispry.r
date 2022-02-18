@@ -320,6 +320,86 @@ final <- data.frame(fit$cluster,mydata)
 aggregate(mydata[ , 2:7], by=list(fit$cluster),FUN = mean)
 
 
+####################------------------- Dimension Reduction  -------------------####################
+###############------------------- Principal Component Analysis -------------------###############
+library(readxl) # Invoking the readxl libraries to read the excel files
+input <- read_excel(file.choose()) #  Load University clustering data set from Hierarchical_clustering
+mydata <- input[,c(1,3:8)] # Dropping the State column in the dataset
+data <- mydata[,-1]
+?princomp # To look at the princomp function to analyze the data
+pcaObj <- princomp(data, cor = TRUE, scores = TRUE, covmat = NULL) # Creating an object that stores all the information of the PCA
+str(pcaObj)
+summary(pcaObj) # Get the cumulative variance for the principal components
+loadings(pcaObj) # Gives the weights of each variable in a PC. Blank means an extremely small number that it is insignificant.
+plot(pcaObj) # Creates an bar plot showing variances on Y axis and PCs on X-axis
+biplot(pcaObj) # Creates a biplot against the first two PCs
+plot(cumsum(pcaObj$sdev*pcaObj$sdev)*100 / (sum(pcaObj$sdev * pcaObj$sdev)),type = "b") # plotting cumulative Variance on Y axis and Index on X axis
+pcaObj$scores # gives the scores of the individual record
+pcaObj$scores[,1:3] # Getting the first 3 PC scores only
+final <- cbind(input[,1],pcaObj$scores[,1:3]) # Creating a dataframe with Univ name and scores of first 3 PCs
+# Creating a scatter plot against scores of PC1 and PC2
+plot(final$Comp.1,final$Comp.2)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
