@@ -304,11 +304,11 @@ norm_data <- scale(mydata[ ,2:7])
 # Writing a function to
 twss <- NULL
 for (i in 2:8){
-  twss <- c(twss,kmeans(norm_data,centers = i)$tot.withinss) # Looping and appending new twss value everytime in the loop
+  twss <- c(twss,kmeans(norm_data,centers = i)$tot.withinss) # Looping and appending new twss value every time in the loop
 }
 
 # Look for an "elbow" in the scree plot
-plot(2:8,twss,type='b',xlab=" No.of CLusters",ylab="TWSS") # on X plot 2-8, Y plot TWSS with a line style and Xlabel and Y label
+plot(2:8,twss,type='b',xlab=" No.of CLusters",ylab="TWSS") # on X plot 2-8, Y plot TWSS with a line style and X label and Y label
 title(sub="K-Means Clustering Scree-Plot") # Title at the bottom 
 
 # Check where the line has higher slope. This shall mean that my increasing the number of clusters we did reduce the TWSS significantly
@@ -318,6 +318,67 @@ fit <- kmeans(norm_data,3)
 final <- data.frame(fit$cluster,mydata)
 # Calculating the aggregates of the cluster
 aggregate(mydata[ , 2:7], by=list(fit$cluster),FUN = mean)
+
+
+### End of Session ###
+rm(list=ls())
+
+####################------------------- Association Rules -------------------####################
+
+install.packages("arules") # Installing the package 'arules
+library(arules) # Invoking the library 'arules'
+
+data("Groceries") # loading in built dataset named 'Groceries
+data() # Shows the various inbuilt datasets in R for practice 
+?Groceries # To know about the Groceries dataset
+
+inspect(Groceries[1:5]) # gives the top 5 transactions
+class(Groceries) # gives the class of the object 'Groceries. It is not a dataframe but a class named transactions.
+summary(Groceries) # Gives the summary of the object
+
+# Running apriori algorithm 
+arules <- apriori(Groceries,parameter = list(support = 0.002, confidence = 0.75, minlen =2)) # setting the parameters
+# we can tweak support and confidence values to obtain different rules.
+arules # A set of 39 rules were created
+# To view the rules based on the lift value 
+inspect(head(sort(arules,by='lift')))
+
+head(quality(arules)) # Head gives the top 6 records. for Quality among the set of 39 rules created in the object arules
+
+install.packages("arulesViz") # Installing 'arulesViz' package to visualize the association rules
+library(arulesViz)
+# Different ways to Visualize the arules
+plot(arules)
+
+# Run the below 3 lines together
+windows()
+plot(arules,method = 'grouped')
+plot(arules[1:10],method = 'graph')# Plotting only 10 rules
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
