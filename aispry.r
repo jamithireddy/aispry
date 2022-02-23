@@ -319,8 +319,6 @@ final <- data.frame(fit$cluster,mydata)
 # Calculating the aggregates of the cluster
 aggregate(mydata[ , 2:7], by=list(fit$cluster),FUN = mean)
 
-
-<<<<<<< HEAD
 ### End of Session ###
 rm(list=ls())
 
@@ -375,6 +373,8 @@ plot(arules)
 windows()
 plot(arules,method = 'grouped')
 plot(arules[1:10],method = 'graph')# Plotting only 10 rules
+# Writing the rules to the system
+write(arules,file="a_rules.csv",sep=",")
 
 
 
